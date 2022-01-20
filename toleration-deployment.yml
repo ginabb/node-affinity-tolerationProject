@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    type: db
+    author: gina
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: db
+  template:
+    metadata:
+      name: mysql-pod
+      labels:
+        type: db
+        author: gina
+    spec:
+      containers:
+        - name: mbb
+          image: mysql:5
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: gina
+      tolerations:
+        - key: node2
+          operator: Equal
+          value: gina
+          effect: NoScheduling
+...

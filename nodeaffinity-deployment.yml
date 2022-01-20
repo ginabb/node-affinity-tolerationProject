@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    type: proxy
+    author: gina
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      type: proxy
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        type: proxy
+        author: gina
+    spec:
+      containers:
+        - name: mynginx
+            image: nginx
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms
+                - matchExpressions:
+                - key: slavesname
+                  operator: In
+                  values:
+                    - gina
+...
